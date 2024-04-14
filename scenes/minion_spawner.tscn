@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://cy5a2cmmte3su"]
+
+[ext_resource type="PackedScene" uid="uid://cu170n6nsw4wn" path="res://scenes/spawner.tscn" id="1_i0qbk"]
+[ext_resource type="Script" path="res://scripts/minion_spawner.gd" id="1_u42kv"]
+[ext_resource type="PackedScene" uid="uid://3vtu4rljrtg5" path="res://scenes/minion.tscn" id="2_p05cj"]
+[ext_resource type="PackedScene" uid="uid://diah0e68jrwyk" path="res://scenes/big_minion.tscn" id="4_6r4la"]
+
+[node name="minion_spawner" type="Node2D"]
+script = ExtResource("1_u42kv")
+
+[node name="spawner" parent="." instance=ExtResource("1_i0qbk")]
+spawnType = ExtResource("2_p05cj")
+
+[node name="Special" type="Label" parent="."]
+visible = false
+offset_left = -4.0
+offset_top = -30.0
+offset_right = 36.0
+offset_bottom = -7.0
+text = "F"
+
+[node name="spawner2" parent="." instance=ExtResource("1_i0qbk")]
+spawnType = ExtResource("4_6r4la")

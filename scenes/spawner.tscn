@@ -1,0 +1,34 @@
+[gd_scene load_steps=6 format=3 uid="uid://cu170n6nsw4wn"]
+
+[ext_resource type="Script" path="res://scripts/spawner.gd" id="1_3wkbv"]
+[ext_resource type="Texture2D" uid="uid://b5n0cbetgxkjt" path="res://assets/spawn_minions.png" id="2_1jqq6"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_12v18"]
+atlas = ExtResource("2_1jqq6")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5ew6m"]
+atlas = ExtResource("2_1jqq6")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_4jpn2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_12v18")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5ew6m")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="spawner" type="StaticBody2D"]
+script = ExtResource("1_3wkbv")
+
+[node name="Sprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_4jpn2")
+
+[node name="SpawnedCharacters" type="Node2D" parent="."]

@@ -1,0 +1,108 @@
+[gd_scene load_steps=16 format=3 uid="uid://diah0e68jrwyk"]
+
+[ext_resource type="Script" path="res://scripts/minion.gd" id="1_dtdh2"]
+[ext_resource type="Texture2D" uid="uid://blmggvmg6a5ea" path="res://assets/minion_attack.png" id="2_ktrjv"]
+[ext_resource type="Texture2D" uid="uid://x1ypjq65icmv" path="res://assets/minion.png" id="3_ewis0"]
+[ext_resource type="PackedScene" uid="uid://fr84tginaply" path="res://scenes/health_display.tscn" id="4_475sb"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fs1oi"]
+atlas = ExtResource("2_ktrjv")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hyw58"]
+atlas = ExtResource("2_ktrjv")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d3tdx"]
+atlas = ExtResource("2_ktrjv")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_advcb"]
+atlas = ExtResource("2_ktrjv")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y3v8d"]
+atlas = ExtResource("3_ewis0")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x30tg"]
+atlas = ExtResource("3_ewis0")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4p37l"]
+atlas = ExtResource("3_ewis0")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_elgud"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fs1oi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hyw58")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d3tdx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_advcb")
+}],
+"loop": true,
+"name": &"attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y3v8d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x30tg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4p37l")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_r3kwf"]
+size = Vector2(16, 8)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_uy7l7"]
+radius = 197.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qiucc"]
+size = Vector2(28, 8)
+
+[node name="minion" type="CharacterBody2D"]
+script = ExtResource("1_dtdh2")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_elgud")
+frame_progress = 0.635479
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 4)
+shape = SubResource("RectangleShape2D_r3kwf")
+
+[node name="HealthDisplay" parent="." instance=ExtResource("4_475sb")]
+
+[node name="DetectionArea" type="Area2D" parent="."]
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
+shape = SubResource("CircleShape2D_uy7l7")
+
+[node name="AttackArea" type="Area2D" parent="."]
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea"]
+shape = SubResource("RectangleShape2D_qiucc")
+
+[node name="AttackTimer" type="Timer" parent="."]
+
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
+[connection signal="body_entered" from="DetectionArea" to="." method="_on_detection_area_body_entered"]
+[connection signal="body_entered" from="AttackArea" to="." method="_on_attack_area_body_entered"]

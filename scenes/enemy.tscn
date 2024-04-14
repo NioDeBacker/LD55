@@ -1,0 +1,112 @@
+[gd_scene load_steps=15 format=3 uid="uid://b48f8h7o0210q"]
+
+[ext_resource type="Script" path="res://scripts/enemy.gd" id="1_sajud"]
+[ext_resource type="Texture2D" uid="uid://f66otny3ev65" path="res://assets/enemy_idle.png" id="2_k5cg7"]
+[ext_resource type="Texture2D" uid="uid://cllxv5yb1ioy0" path="res://assets/enemy_attack.png" id="2_qkfg2"]
+[ext_resource type="PackedScene" uid="uid://fr84tginaply" path="res://scenes/health_display.tscn" id="3_ftmq0"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_osbap"]
+atlas = ExtResource("2_qkfg2")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s4h3c"]
+atlas = ExtResource("2_qkfg2")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_msy6y"]
+atlas = ExtResource("2_qkfg2")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ktl4e"]
+atlas = ExtResource("2_k5cg7")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2yhi1"]
+atlas = ExtResource("2_k5cg7")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g6ic6"]
+atlas = ExtResource("2_k5cg7")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qymn6"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_osbap")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s4h3c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_msy6y")
+}],
+"loop": true,
+"name": &"attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ktl4e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2yhi1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g6ic6")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_026ho"]
+size = Vector2(32, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_s7yjt"]
+size = Vector2(101.25, 27)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_m2jcw"]
+radius = 132.004
+
+[node name="enemy" type="CharacterBody2D" groups=["enemies"]]
+visibility_layer = 2
+collision_layer = 2
+collision_mask = 3
+script = ExtResource("1_sajud")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+y_sort_enabled = true
+sprite_frames = SubResource("SpriteFrames_qymn6")
+animation = &"attack"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visibility_layer = 2
+position = Vector2(0, 8)
+shape = SubResource("RectangleShape2D_026ho")
+
+[node name="HealthDisplay" parent="." instance=ExtResource("3_ftmq0")]
+
+[node name="AttackArea" type="Area2D" parent="."]
+visibility_layer = 5
+collision_layer = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea"]
+visibility_layer = 4
+position = Vector2(1, 0)
+shape = SubResource("RectangleShape2D_s7yjt")
+
+[node name="DetectionArea" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
+visibility_layer = 3
+shape = SubResource("CircleShape2D_m2jcw")
+
+[node name="AttackTimer" type="Timer" parent="."]
+
+[connection signal="body_entered" from="AttackArea" to="." method="_on_attack_area_body_entered"]
+[connection signal="body_entered" from="DetectionArea" to="." method="_on_detection_area_body_entered"]
+[connection signal="body_exited" from="DetectionArea" to="." method="_on_detection_area_body_exited"]
+[connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]

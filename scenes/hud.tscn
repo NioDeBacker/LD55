@@ -1,0 +1,55 @@
+[gd_scene load_steps=4 format=3 uid="uid://dywhi3380hrxx"]
+
+[ext_resource type="Texture2D" uid="uid://njs5nnnjxy2v" path="res://assets/mana_bar.png" id="1_driyj"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_vkf7d"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_5jfql"]
+
+[node name="HUD" type="CanvasLayer"]
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -57.0
+offset_top = 2.0
+offset_right = 57.0
+offset_bottom = 68.0
+grow_horizontal = 2
+
+[node name="HContainerMana" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/HContainerMana"]
+layout_mode = 2
+text = "Mana:"
+label_settings = SubResource("LabelSettings_vkf7d")
+uppercase = true
+
+[node name="ManaBar" type="TextureProgressBar" parent="VBoxContainer/HContainerMana"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+max_value = 150.0
+value = 150.0
+allow_greater = true
+nine_patch_stretch = true
+stretch_margin_left = 4
+stretch_margin_top = 2
+stretch_margin_right = 4
+stretch_margin_bottom = 2
+texture_progress = ExtResource("1_driyj")
+
+[node name="HContainerScore" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/HContainerScore"]
+layout_mode = 2
+text = "Score:"
+label_settings = SubResource("LabelSettings_5jfql")
+uppercase = true
+
+[node name="ScoreLabel" type="Label" parent="VBoxContainer/HContainerScore"]
+layout_mode = 2
+text = "0"

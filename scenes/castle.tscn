@@ -1,0 +1,31 @@
+[gd_scene load_steps=6 format=3 uid="uid://dipfvxwarr7gl"]
+
+[ext_resource type="Texture2D" uid="uid://cxri7tg63ek40" path="res://assets/castle.png" id="1_6jg8t"]
+[ext_resource type="Script" path="res://scripts/castle.gd" id="1_36i5x"]
+[ext_resource type="PackedScene" uid="uid://fr84tginaply" path="res://scenes/health_display.tscn" id="3_pqycl"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_1nuoj"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_6jg8t")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kp1to"]
+size = Vector2(32, 16)
+
+[node name="castle" type="StaticBody2D"]
+script = ExtResource("1_36i5x")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_1nuoj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 8)
+shape = SubResource("RectangleShape2D_kp1to")
+
+[node name="HealthDisplay" parent="." instance=ExtResource("3_pqycl")]
